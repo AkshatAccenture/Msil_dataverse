@@ -1,36 +1,12 @@
-version: 0.0.13
-jobId: "111"
-jobName: SADP_Material_Purchase_Details
+version: 0.0.6
+jobId: "112"
+jobName: SADP_Requisition_Details
 jobType: Source Aligned Data Product
 domain: marketing
 alias: Load_data_to_table
 discoveryPort:
-  name: SADP_Material_Purchase_Details
+  name: SADP_Requisition_Details
 inputPorts:
-  - alias: Purchase_Order_1
-    isDynamic: true
-    path: s3://byte-etl-externaldemo/shell-sample-data/Purchase_Order_output.csv
-    optional:
-      persistDataFrame: false
-      advanceOptions:
-        delimiter: ","
-      enableDataReconciliation: false
-      enforceSchema: false
-      connection: Shell Demo S3 Connection
-      dataSetUrn: urn:dv:dataset:1f646437-b498-47d8-88f0-3792a18329ce
-    type: inputDelimited
-  - alias: Goods_Receipt_1
-    isDynamic: true
-    path: s3://byte-etl-externaldemo/shell-sample-data/Goods_Receipt_output.csv
-    optional:
-      persistDataFrame: false
-      advanceOptions:
-        delimiter: ","
-      enableDataReconciliation: false
-      enforceSchema: false
-      connection: Shell Demo S3 Connection
-      dataSetUrn: urn:dv:dataset:be3e7cff-57af-4660-b321-32b62f4ac930
-    type: inputDelimited
   - alias: Vendor_Master_1
     isDynamic: true
     path: s3://byte-etl-externaldemo/shell-sample-data/Vendor_Master_output.csv
@@ -55,9 +31,9 @@ inputPorts:
       connection: Shell Demo S3 Connection
       dataSetUrn: urn:dv:dataset:f76fa30b-a66e-4659-97d7-56a4ae7586f0
     type: inputDelimited
-  - alias: Company_Master_1
+  - alias: Purchase_Requisition_1
     isDynamic: true
-    path: s3://byte-etl-externaldemo/shell-sample-data/Company_Master_output.csv
+    path: s3://byte-etl-externaldemo/shell-sample-data/Purchase_Requisition_output.csv
     optional:
       persistDataFrame: false
       advanceOptions:
@@ -65,19 +41,7 @@ inputPorts:
       enableDataReconciliation: false
       enforceSchema: false
       connection: Shell Demo S3 Connection
-      dataSetUrn: urn:dv:dataset:5f3ef882-9ef7-4130-9b53-a55f7d1b6fd8
-    type: inputDelimited
-  - alias: Plant_Master_1
-    isDynamic: true
-    path: s3://byte-etl-externaldemo/shell-sample-data/Plant_Master_output.csv
-    optional:
-      persistDataFrame: false
-      advanceOptions:
-        delimiter: ","
-      enableDataReconciliation: false
-      enforceSchema: false
-      connection: Shell Demo S3 Connection
-      dataSetUrn: urn:dv:dataset:c0fdf1b9-ff15-4b83-88bf-742962f31be6
+      dataSetUrn: urn:dv:dataset:aff27224-7a15-4b18-9a78-5934e4443b95
     type: inputDelimited
 productState:
   isDynamic: true
@@ -87,7 +51,7 @@ productState:
   stateStoreType: loadDataIceberg
   isProfilingEnabled: false
   updateStrategy: Overwrite
-  tableName: s3source.material_purchase_details
+  tableName: s3source.requisition_details
   warehousePath: s3://bp-spark-sql-library-test-acc/
   catalogName: s3Source
   optional:
@@ -101,35 +65,23 @@ transformation:
   - isDynamic: true
     alias: Spark_SQL_1
     description: Main query
-    sequence: 7
+    sequence: 4
     inputDataFrameList:
-      - inputDataFrame: Purchase_Order_1
-        tempViewName: purchase_order
-      - inputDataFrame: Goods_Receipt_1
-        tempViewName: goods_receipt
       - inputDataFrame: Vendor_Master_1
         tempViewName: vendor_master
       - inputDataFrame: Material_Master_1
         tempViewName: material_master
-      - inputDataFrame: Company_Master_1
-        tempViewName: company_master
-      - inputDataFrame: Plant_Master_1
-        tempViewName: plant_master
-    query: select po.Plant, po.`Item Number of the Purchasing Document`,
-      po.`Delivery Date`, po.`Order Quantity`, po.`Order Unit`, po.`Net Price`,
-      po.`Net Order Value in Document Currency`, po.`Material Group`, po.`Cost
-      Centre`, po.`Purchasing Document Number`, gr.`Batch Number`, vm.`Vendor
-      Name`, vm.`Vendor ID`, vm.`Vendor Type`, vm.`Client ID`, vm.`Client Name`,
-      mm.`Material Number`, mm.`Material Description`, mm.`Material Type`,
-      pm.`Plant ID`, pm.`Storage Location`, pm.`Profit Centre`
-      from  purchase_order po left join  goods_receipt gr on po.plant =
-      gr.plant  and po.`Material Number` = gr.`Material Number` and po.`Vendor
-      Number`= gr.`Vendor Number` and po.`Purchasing Document Number` =
-      gr.`Purchasing Document Number` left join vendor_master vm on vm.`Vendor
-      Id` = po.`Vendor Number` left join material_master mm on mm.`Material
-      Number` = po.`Material Number` left join plant_master pm on pm.`plant Id`
-      = po.`plant` and pm.`Cost Centre` = po.`Cost Centre` and pm.`Material
-      Number` = po.`Material Number`
+      - inputDataFrame: Purchase_Requisition_1
+        tempViewName: purchase_requisition
+    query: select pr.`Purchase Requisition Number`, pr.`Item Number of Purchase
+      Requisition`, pr.`Desired Vendor`, pr.`Fixed Vendor`, pr.`Number of
+      Purchasing Info Record`, vm.`Vendor Name`, vm.`Vendor ID`, vm.`Vendor
+      Type`, vm.`Client ID`, vm.`Client Name`, mm.`Material Number`,
+      mm.`Material Description`, mm.`Material Type` from purchase_requisition pr
+      left join vendor_master vm on vm.`Material Number Used by Vendor` =
+      pr.`Material Number` and vm.`Purchase Info record number` = pr.`Number of
+      Purchasing Info Record` and vm.`Vendor Name` = pr.`Fixed Vendor` left join
+      material_master mm on mm.`Material Number` = pr.`Material Number`
     optional:
       persistDataFrame: false
     type: operationThroughSqlQuery
