@@ -1,4 +1,4 @@
-version: 0.0.14
+version: 0.0.15
 jobId: "111"
 jobName: SADP_Material_Purchase_Details
 jobType: Source Aligned Data Product
@@ -83,7 +83,118 @@ productState:
   isDynamic: true
   alias: Load_data_to_table
   retentionVersions: ""
-  logicalSchema: ""
+  logicalSchema:
+    properties:
+      Plant:
+        type: STRING
+        description: " "
+        sourceColumn: Plant
+        sourceTable: purchase_order
+      Item Number of the Purchasing Document:
+        type: STRING
+        description: " "
+        sourceColumn: Item Number of the Purchasing Document
+        sourceTable: purchase_order
+      Delivery Date:
+        type: STRING
+        description: " "
+        sourceColumn: Delivery Date
+        sourceTable: purchase_order
+      Order Quantity:
+        type: STRING
+        description: " "
+        sourceColumn: Order Quantity
+        sourceTable: purchase_order
+      Order Unit:
+        type: STRING
+        description: " "
+        sourceColumn: Order Unit
+        sourceTable: purchase_order
+      Net Price:
+        type: STRING
+        description: " "
+        sourceColumn: Net Price
+        sourceTable: purchase_order
+      Net Order Value in Document Currency:
+        type: STRING
+        description: " "
+        sourceColumn: Net Order Value in Document Currency
+        sourceTable: purchase_order
+      Material Group:
+        type: STRING
+        description: " "
+        sourceColumn: Material Group
+        sourceTable: purchase_order
+      Cost Centre:
+        type: STRING
+        description: " "
+        sourceColumn: Cost Centre
+        sourceTable: purchase_order
+      Purchasing Document Number:
+        type: STRING
+        description: " "
+        sourceColumn: Purchasing Document Number
+        sourceTable: purchase_order
+      Batch Number:
+        type: STRING
+        description: " "
+        sourceColumn: Batch Number
+        sourceTable: goods_receipt
+      Vendor Name:
+        type: STRING
+        description: " "
+        sourceColumn: Vendor Name
+        sourceTable: vendor_master
+      Vendor ID:
+        type: STRING
+        description: " "
+        sourceColumn: Vendor ID
+        sourceTable: vendor_master
+      Vendor Type:
+        type: STRING
+        description: " "
+        sourceColumn: Vendor Type
+        sourceTable: vendor_master
+      Client ID:
+        type: STRING
+        description: " "
+        sourceColumn: Client ID
+        sourceTable: vendor_master
+      Client Name:
+        type: STRING
+        description: " "
+        sourceColumn: Client Name
+        sourceTable: vendor_master
+      Material Number:
+        type: STRING
+        description: " "
+        sourceColumn: Material Number
+        sourceTable: material_master
+      Material Description:
+        type: STRING
+        description: " "
+        sourceColumn: Material Description
+        sourceTable: material_master
+      Material Type:
+        type: STRING
+        description: " "
+        sourceColumn: Material Type
+        sourceTable: material_master
+      Plant ID:
+        type: STRING
+        description: " "
+        sourceColumn: Plant ID
+        sourceTable: plant_master
+      Storage Location:
+        type: STRING
+        description: " "
+        sourceColumn: Storage Location
+        sourceTable: plant_master
+      Profit Centre:
+        type: STRING
+        description: " "
+        sourceColumn: Profit Centre
+        sourceTable: plant_master
   stateStoreType: loadDataIceberg
   isProfilingEnabled: false
   updateStrategy: Overwrite
