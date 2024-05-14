@@ -1,11 +1,11 @@
-version: 0.0.7
+version: 0.0.11
 jobId: "112"
-jobName: SADP_Requisition_Details
+jobName: Requisition Details
 jobType: Source Aligned Data Product
 domain: marketing
 alias: Load_data_to_table
 discoveryPort:
-  name: SADP_Requisition_Details
+  name: Requisition Details
 inputPorts:
   - alias: Vendor_Master_1
     isDynamic: true
@@ -47,7 +47,73 @@ productState:
   isDynamic: true
   alias: Load_data_to_table
   retentionVersions: ""
-  logicalSchema: ""
+  logicalSchema:
+    properties:
+      Purchase Requisition Number:
+        type: STRING
+        description: " "
+        sourceColumn: Purchase Requisition Number
+        sourceTable: purchase_requisition
+      Item Number of Purchase Requisition:
+        type: STRING
+        description: " "
+        sourceColumn: Item Number of Purchase Requisition
+        sourceTable: purchase_requisition
+      Desired Vendor:
+        type: STRING
+        description: " "
+        sourceColumn: Desired Vendor
+        sourceTable: purchase_requisition
+      Fixed Vendor:
+        type: STRING
+        description: " "
+        sourceColumn: Fixed Vendor
+        sourceTable: purchase_requisition
+      Number of Purchasing Info Record:
+        type: STRING
+        description: " "
+        sourceColumn: Number of Purchasing Info Record
+        sourceTable: purchase_requisition
+      Vendor Name:
+        type: STRING
+        description: " "
+        sourceColumn: Vendor Name
+        sourceTable: vendor_master
+      Vendor ID:
+        type: STRING
+        description: " "
+        sourceColumn: Vendor ID
+        sourceTable: vendor_master
+      Vendor Type:
+        type: STRING
+        description: " "
+        sourceColumn: Vendor Type
+        sourceTable: vendor_master
+      Client ID:
+        type: STRING
+        description: " "
+        sourceColumn: Client ID
+        sourceTable: vendor_master
+      Client Name:
+        type: STRING
+        description: " "
+        sourceColumn: Client Name
+        sourceTable: vendor_master
+      Material Number:
+        type: STRING
+        description: " "
+        sourceColumn: Material Number
+        sourceTable: material_master
+      Material Description:
+        type: STRING
+        description: " "
+        sourceColumn: Material Description
+        sourceTable: material_master
+      Material Type:
+        type: STRING
+        description: " "
+        sourceColumn: Material Type
+        sourceTable: material_master
   stateStoreType: loadDataIceberg
   isProfilingEnabled: false
   updateStrategy: Overwrite
