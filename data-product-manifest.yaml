@@ -1,4 +1,4 @@
-version: 0.0.8
+version: 0.0.9
 jobId: "114"
 jobName: Material On Time
 jobType: Consumption Ready Data Product
@@ -124,7 +124,7 @@ productState:
 transformation:
   - isDynamic: true
     alias: main_query
-    description: main crdp query
+    description: main query
     sequence: 3
     inputDataFrameList:
       - inputDataFrame: Material_Purchase_Detail
