@@ -29,7 +29,7 @@ inputPorts:
     type: inputParquet
 productState:
   isDynamic: true
-  alias: load_into_final_crdp
+  alias: load_into_crdp
   retentionVersions: ""
   logicalSchema:
     properties:
