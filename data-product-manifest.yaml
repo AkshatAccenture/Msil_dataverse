@@ -1,11 +1,11 @@
-version: 0.0.17
+version: 0.0.18
 jobId: "111"
-jobName: Material Purchase Details
+jobName: Material Purchase Detail
 jobType: Source Aligned Data Product
 domain: marketing
 alias: Load_data_to_table
 discoveryPort:
-  name: Material Purchase Details
+  name: Material Purchase Detail
 inputPorts:
   - alias: Purchase_Order_1
     isDynamic: true
