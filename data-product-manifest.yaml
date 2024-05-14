@@ -1,6 +1,6 @@
 version: 0.0.18
 jobId: "111"
-jobName: Material Purchase Detail
+jobName: Material purchase detail
 jobType: Source Aligned Data Product
 domain: marketing
 alias: Load_data_to_table
