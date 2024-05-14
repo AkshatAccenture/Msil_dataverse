@@ -1,15 +1,15 @@
-version: 0.0.6
-jobId: "112"
-jobName: SADP_Requisition_Details
-jobType: Source Aligned Data Product
+version: 0.0.4
+jobId: "114"
+jobName: Material On Time
+jobType: Consumption Ready Data Product
 domain: marketing
-alias: Load_data_to_table
+alias: load_into_final_crdp_table
 discoveryPort:
-  name: SADP_Requisition_Details
+  name: Material On Time
 inputPorts:
-  - alias: Vendor_Master_1
+  - alias: Requisition_Details
     isDynamic: true
-    path: s3://byte-etl-externaldemo/shell-sample-data/Vendor_Master_output.csv
+    path: s3://byte-etl-externaldemo/shell-sample-data/CRDP_master.csv
     optional:
       persistDataFrame: false
       advanceOptions:
@@ -17,41 +17,25 @@ inputPorts:
       enableDataReconciliation: false
       enforceSchema: false
       connection: Shell Demo S3 Connection
-      dataSetUrn: urn:dv:dataset:a218a716-597a-4234-8d2f-6980e5eec258
+      dataSetUrn: urn:dv:dataset:7dc702cc-8d35-436e-b33b-d45e28ec0a6e
     type: inputDelimited
-  - alias: Material_Master_1
+  - alias: Material_Purchase_Detail_1
     isDynamic: true
-    path: s3://byte-etl-externaldemo/shell-sample-data/Material_Master_output.csv
+    dataProductUrn: urn:dv:dataproduct:a614ce0d-9a66-4e7f-9a5f-b7b472d24de7
+    filter: ""
+    projection: ""
     optional:
       persistDataFrame: false
-      advanceOptions:
-        delimiter: ","
-      enableDataReconciliation: false
-      enforceSchema: false
-      connection: Shell Demo S3 Connection
-      dataSetUrn: urn:dv:dataset:f76fa30b-a66e-4659-97d7-56a4ae7586f0
-    type: inputDelimited
-  - alias: Purchase_Requisition_1
-    isDynamic: true
-    path: s3://byte-etl-externaldemo/shell-sample-data/Purchase_Requisition_output.csv
-    optional:
-      persistDataFrame: false
-      advanceOptions:
-        delimiter: ","
-      enableDataReconciliation: false
-      enforceSchema: false
-      connection: Shell Demo S3 Connection
-      dataSetUrn: urn:dv:dataset:aff27224-7a15-4b18-9a78-5934e4443b95
-    type: inputDelimited
+    type: dataproduct
 productState:
   isDynamic: true
-  alias: Load_data_to_table
+  alias: load_into_final_crdp_table
   retentionVersions: ""
   logicalSchema: ""
   stateStoreType: loadDataIceberg
   isProfilingEnabled: false
   updateStrategy: Overwrite
-  tableName: s3source.requisition_details
+  tableName: s3source.material_on_time
   warehousePath: s3://bp-spark-sql-library-test-acc/
   catalogName: s3Source
   optional:
@@ -64,24 +48,14 @@ productState:
 transformation:
   - isDynamic: true
     alias: Spark_SQL_1
-    description: Main query
-    sequence: 4
+    description: main crdp query
+    sequence: 3
     inputDataFrameList:
-      - inputDataFrame: Vendor_Master_1
-        tempViewName: vendor_master
-      - inputDataFrame: Material_Master_1
-        tempViewName: material_master
-      - inputDataFrame: Purchase_Requisition_1
-        tempViewName: purchase_requisition
-    query: select pr.`Purchase Requisition Number`, pr.`Item Number of Purchase
-      Requisition`, pr.`Desired Vendor`, pr.`Fixed Vendor`, pr.`Number of
-      Purchasing Info Record`, vm.`Vendor Name`, vm.`Vendor ID`, vm.`Vendor
-      Type`, vm.`Client ID`, vm.`Client Name`, mm.`Material Number`,
-      mm.`Material Description`, mm.`Material Type` from purchase_requisition pr
-      left join vendor_master vm on vm.`Material Number Used by Vendor` =
-      pr.`Material Number` and vm.`Purchase Info record number` = pr.`Number of
-      Purchasing Info Record` and vm.`Vendor Name` = pr.`Fixed Vendor` left join
-      material_master mm on mm.`Material Number` = pr.`Material Number`
+      - inputDataFrame: Requisition_Details
+        tempViewName: requisition_details
+      - inputDataFrame: Material_Purchase_Detail_1
+        tempViewName: material_purchase_detail
+    query: select * from requisition_details
     optional:
       persistDataFrame: false
     type: operationThroughSqlQuery
