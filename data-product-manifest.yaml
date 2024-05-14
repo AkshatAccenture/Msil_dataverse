@@ -1,6 +1,6 @@
 version: 0.0.10
 jobId: "114"
-jobName: Material On Time
+jobName: Material on time
 jobType: Consumption Ready Data Product
 domain: marketing
 alias: load_into_crdp
