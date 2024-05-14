@@ -1,4 +1,4 @@
-version: 0.0.6
+version: 0.0.7
 jobId: "114"
 jobName: Material On Time
 jobType: Consumption Ready Data Product
@@ -7,18 +7,6 @@ alias: load_into_final_crdp_table
 discoveryPort:
   name: Material On Time
 inputPorts:
-  - alias: Requisition_Details
-    isDynamic: true
-    path: s3://byte-etl-externaldemo/shell-sample-data/CRDP_master.csv
-    optional:
-      persistDataFrame: false
-      advanceOptions:
-        delimiter: ","
-      enableDataReconciliation: false
-      enforceSchema: false
-      connection: Shell Demo S3 Connection
-      dataSetUrn: urn:dv:dataset:7dc702cc-8d35-436e-b33b-d45e28ec0a6e
-    type: inputDelimited
   - alias: Material_Purchase_Detail_1
     isDynamic: true
     dataProductUrn: urn:dv:dataproduct:a614ce0d-9a66-4e7f-9a5f-b7b472d24de7
@@ -27,6 +15,18 @@ inputPorts:
     optional:
       persistDataFrame: false
     type: dataproduct
+  - alias: Requistion_detail_manual_1
+    isDynamic: true
+    path: s3://byte-etl-externaldemo/shell-sample-data/Requisition_detail_manual/
+    optional:
+      persistDataFrame: false
+      advanceOptions:
+        mergeSchema: true
+      enableDataReconciliation: false
+      enforceSchema: false
+      connection: Shell Demo S3 Connection
+      dataSetUrn: urn:dv:dataset:e707c378-5d7c-4f1e-afad-fb17b11f44b2
+    type: inputParquet
 productState:
   isDynamic: true
   alias: load_into_final_crdp_table
@@ -35,77 +35,77 @@ productState:
     properties:
       Spend by vendors:
         type: STRING
-        description: " "
+        description: Total spend by vendors
         sourceColumn: Spend by vendors
         sourceTable: material_purchase_detail
       Monthly spend trend:
         type: STRING
-        description: " "
+        description: Monthly spending trend
         sourceColumn: Monthly spend trend
         sourceTable: requisition_details
       Spend by category:
         type: STRING
-        description: " "
+        description: Total spend by category
         sourceColumn: Spend by category
         sourceTable: material_purchase_detail
       Spend by sub category:
         type: STRING
-        description: " "
+        description: Total spend by sub-category
         sourceColumn: Spend by sub category
         sourceTable: requisition_details
       Spend by department:
         type: STRING
-        description: " "
+        description: Total spend by department
         sourceColumn: Spend by department
         sourceTable: material_purchase_detail
       Spend by on contract:
         type: STRING
-        description: " "
+        description: Spend by on-contract purchases
         sourceColumn: Spend by on contract
         sourceTable: requisition_details
       Spend by off contract:
         type: STRING
-        description: " "
+        description: Spend by off-contract purchases
         sourceColumn: Spend by off contract
         sourceTable: material_purchase_detail
       Yearly spend:
         type: STRING
-        description: " "
+        description: Total spend for the year
         sourceColumn: Yearly spend
         sourceTable: requisition_details
       Monthly spend value:
         type: STRING
-        description: " "
+        description: Monthly spending value
         sourceColumn: Monthly spend value
         sourceTable: material_purchase_detail
       Invoice Details:
         type: STRING
-        description: " "
+        description: Details of the invoices
         sourceColumn: Invoice Details
         sourceTable: requisition_details
       No of Invoices processed:
         type: STRING
-        description: " "
+        description: Number of invoices processed
         sourceColumn: No of Invoices processed
         sourceTable: material_purchase_detail
       Spend by sub department:
         type: STRING
-        description: " "
+        description: Total spend by sub-department
         sourceColumn: Spend by sub department
         sourceTable: material_purchase_detail
       Spend by different PNL Entities:
         type: STRING
-        description: " "
+        description: Spend by different PNL entities
         sourceColumn: Spend by different PNL Entities
         sourceTable: requisition_details
       Volume of invoices processed:
         type: STRING
-        description: " "
+        description: Volume of invoices processed
         sourceColumn: Volume of invoices processed
         sourceTable: requisition_details
       Spend by unspc category:
         type: STRING
-        description: " "
+        description: Total spend by UNSPC category
         sourceColumn: Spend by unspc category
         sourceTable: material_purchase_detail
   stateStoreType: loadDataIceberg
@@ -127,11 +127,11 @@ transformation:
     description: main crdp query
     sequence: 3
     inputDataFrameList:
-      - inputDataFrame: Requisition_Details
-        tempViewName: requisition_details
       - inputDataFrame: Material_Purchase_Detail_1
         tempViewName: material_purchase_detail
-    query: select * from requisition_details
+      - inputDataFrame: Requistion_detail_manual_1
+        tempViewName: requisition_details_manual
+    query: select * from requisition_details_manual
     optional:
       persistDataFrame: false
     type: operationThroughSqlQuery
