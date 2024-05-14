@@ -1,9 +1,9 @@
 version: 0.0.10
 jobId: "114"
-jobName: Material on Time
+jobName: Material On Time
 jobType: Consumption Ready Data Product
 domain: marketing
-alias: load_into_final_crdp
+alias: load_into_crdp
 discoveryPort:
   name: Material On Time
 inputPorts:
