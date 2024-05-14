@@ -1,13 +1,13 @@
-version: 0.0.7
+version: 0.0.8
 jobId: "114"
 jobName: Material On Time
 jobType: Consumption Ready Data Product
 domain: marketing
-alias: load_into_final_crdp_table
+alias: load_into_final_crdp
 discoveryPort:
   name: Material On Time
 inputPorts:
-  - alias: Material_Purchase_Detail_1
+  - alias: Material_Purchase_Detail
     isDynamic: true
     dataProductUrn: urn:dv:dataproduct:a614ce0d-9a66-4e7f-9a5f-b7b472d24de7
     filter: ""
@@ -15,7 +15,7 @@ inputPorts:
     optional:
       persistDataFrame: false
     type: dataproduct
-  - alias: Requistion_detail_manual_1
+  - alias: Requistion_detail_manual
     isDynamic: true
     path: s3://byte-etl-externaldemo/shell-sample-data/Requisition_detail_manual/
     optional:
@@ -29,7 +29,7 @@ inputPorts:
     type: inputParquet
 productState:
   isDynamic: true
-  alias: load_into_final_crdp_table
+  alias: load_into_final_crdp
   retentionVersions: ""
   logicalSchema:
     properties:
@@ -123,13 +123,13 @@ productState:
   refreshInterval: None
 transformation:
   - isDynamic: true
-    alias: Spark_SQL_1
+    alias: main_query
     description: main crdp query
     sequence: 3
     inputDataFrameList:
-      - inputDataFrame: Material_Purchase_Detail_1
+      - inputDataFrame: Material_Purchase_Detail
         tempViewName: material_purchase_detail
-      - inputDataFrame: Requistion_detail_manual_1
+      - inputDataFrame: Requistion_detail_manual
         tempViewName: requisition_details_manual
     query: select * from requisition_details_manual
     optional:
