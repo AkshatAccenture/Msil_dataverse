@@ -1,4 +1,4 @@
-version: 0.0.5
+version: 0.0.6
 jobId: "114"
 jobName: Material On Time
 jobType: Consumption Ready Data Product
@@ -37,77 +37,77 @@ productState:
         type: STRING
         description: " "
         sourceColumn: Spend by vendors
-        sourceTable: s3source.material_on_time
+        sourceTable: material_purchase_detail
       Monthly spend trend:
         type: STRING
         description: " "
         sourceColumn: Monthly spend trend
-        sourceTable: s3source.material_on_time
+        sourceTable: requisition_details
       Spend by category:
         type: STRING
         description: " "
         sourceColumn: Spend by category
-        sourceTable: s3source.material_on_time
+        sourceTable: material_purchase_detail
       Spend by sub category:
         type: STRING
         description: " "
         sourceColumn: Spend by sub category
-        sourceTable: s3source.material_on_time
+        sourceTable: requisition_details
       Spend by department:
         type: STRING
         description: " "
         sourceColumn: Spend by department
-        sourceTable: s3source.material_on_time
+        sourceTable: material_purchase_detail
       Spend by on contract:
         type: STRING
         description: " "
         sourceColumn: Spend by on contract
-        sourceTable: s3source.material_on_time
+        sourceTable: requisition_details
       Spend by off contract:
         type: STRING
         description: " "
         sourceColumn: Spend by off contract
-        sourceTable: s3source.material_on_time
+        sourceTable: material_purchase_detail
       Yearly spend:
         type: STRING
         description: " "
         sourceColumn: Yearly spend
-        sourceTable: s3source.material_on_time
+        sourceTable: requisition_details
       Monthly spend value:
         type: STRING
         description: " "
         sourceColumn: Monthly spend value
-        sourceTable: s3source.material_on_time
+        sourceTable: material_purchase_detail
       Invoice Details:
         type: STRING
         description: " "
         sourceColumn: Invoice Details
-        sourceTable: s3source.material_on_time
+        sourceTable: requisition_details
       No of Invoices processed:
         type: STRING
         description: " "
         sourceColumn: No of Invoices processed
-        sourceTable: s3source.material_on_time
+        sourceTable: material_purchase_detail
       Spend by sub department:
         type: STRING
         description: " "
         sourceColumn: Spend by sub department
-        sourceTable: s3source.material_on_time
+        sourceTable: material_purchase_detail
       Spend by different PNL Entities:
         type: STRING
         description: " "
         sourceColumn: Spend by different PNL Entities
-        sourceTable: s3source.material_on_time
+        sourceTable: requisition_details
       Volume of invoices processed:
         type: STRING
         description: " "
         sourceColumn: Volume of invoices processed
-        sourceTable: s3source.material_on_time
+        sourceTable: requisition_details
       Spend by unspc category:
         type: STRING
         description: " "
         sourceColumn: Spend by unspc category
-        sourceTable: s3source.material_on_time
+        sourceTable: material_purchase_detail
   stateStoreType: loadDataIceberg
   isProfilingEnabled: false
   updateStrategy: Overwrite
