@@ -1,4 +1,4 @@
-version: 0.0.17
+version: 0.0.18
 jobId: "114"
 jobName: Material On Time
 jobType: Consumption Ready Data Product
@@ -35,61 +35,101 @@ productState:
     properties:
       Percentage of material delivered on time:
         type: NUMBER
-        description: ""
+        description: Percentage of materials delivered as per delivery date
+        sourceColumn: Percentage of material delivered on time
+        sourceTable: material_purchase_detail
       quartely trend of material delivered on time:
         type: NUMBER
-        description: ""
+        description: MoT metric quarterly
+        sourceColumn: quartely trend of material delivered on time
+        sourceTable: requisition_details
       MOT by asset level:
         type: NUMBER
-        description: ""
+        description: MoT metric by asset
+        sourceColumn: MOT by asset level
+        sourceTable: requisition_details
       Inventory Holding cost:
         type: NUMBER
-        description: ""
+        description: Holding cost of inventory
+        sourceColumn: Inventory Holding cost
+        sourceTable: requisition_details
       MOT Performance by region:
         type: NUMBER
-        description: ""
+        description: MoT metric by region
+        sourceColumn: MOT Performance by region
+        sourceTable: requisition_details
       MOT Performance by vendor:
         type: NUMBER
-        description: ""
+        description: MoT metric by vendor
+        sourceColumn: MOT Performance by vendor
+        sourceTable: requisition_details
       Safety stock details:
         type: NUMBER
-        description: ""
+        description: Aggregate value of inventory tagged as safety stock
+        sourceColumn: Safety stock details
+        sourceTable: requisition_details
       No of Reservations created:
         type: NUMBER
-        description: ""
+        description: No of material reservations
+        sourceColumn: No of Reservations created
+        sourceTable: material_purchase_detail
       No of planners making reservations:
         type: NUMBER
-        description: ""
+        description: No of planners making reservations
+        sourceColumn: No of planners making reservations
+        sourceTable: requisition_detail
       No of non coded materials procured:
         type: NUMBER
-        description: ""
+        description: No of non coded materials procured
+        sourceColumn: No of non coded materials procured
+        sourceTable: material_purchase_detail
       Amount of stock required:
         type: NUMBER
-        description: ""
+        description: Amount of stock required
+        sourceColumn: Amount of stock required
+        sourceTable: material_purchase_detail
       working capital inventory:
         type: NUMBER
-        description: ""
+        description: amount of working capital held up as inventory
+        sourceColumn: working capital inventory
+        sourceTable: material_purchase_detail
       inventory by different departments:
         type: NUMBER
-        description: ""
+        description: inventory by different departments
+        sourceColumn: inventory by different departments
+        sourceTable: requisition_detail
       Unplanned rushed orders:
         type: NUMBER
-        description: ""
+        description: Order is classified as rush order if the order delivery time given
+          to supplier is significantly less than regular delivery time
+        sourceColumn: Unplanned rushed orders
+        sourceTable: requisition_detail
       sourcing strategy used:
         type: NUMBER
-        description: ""
+        description: single source, multisource, EFA etc
+        sourceColumn: sourcing strategy used
+        sourceTable: requisition_detail
       materials procured on contracts:
         type: NUMBER
-        description: ""
+        description: "% of material procured on contracts"
+        sourceColumn: materials procured on contracts
+        sourceTable: material_purchase_detail
       supplier delivery performance:
         type: NUMBER
-        description: ""
+        description: Product of cost, quality and on time delivery
+        sourceColumn: supplier delivery performance
+        sourceTable: material_purchase_detail
       PO Automation:
         type: NUMBER
-        description: ""
+        description: No of Pos automatically generated
+        sourceColumn: PO Automation
+        sourceTable: material_purchase_detail
       production loss due to unavailability of material:
         type: NUMBER
-        description: ""
+        description: calculated through no of hr plant is shutdown because of lack of
+          spares and associated throughput loss
+        sourceColumn: production loss due to unavailability of material
+        sourceTable: requisition_detail
   stateStoreType: loadDataIceberg
   isProfilingEnabled: false
   updateStrategy: Overwrite
