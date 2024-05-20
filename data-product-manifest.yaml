@@ -1,4 +1,4 @@
-version: 0.0.16
+version: 0.0.17
 jobId: "114"
 jobName: Material On Time
 jobType: Consumption Ready Data Product
@@ -34,61 +34,61 @@ productState:
   logicalSchema:
     properties:
       Percentage of material delivered on time:
-        type: STRING
+        type: NUMBER
         description: ""
       quartely trend of material delivered on time:
-        type: STRING
+        type: NUMBER
         description: ""
       MOT by asset level:
-        type: STRING
+        type: NUMBER
         description: ""
       Inventory Holding cost:
-        type: STRING
+        type: NUMBER
         description: ""
       MOT Performance by region:
-        type: STRING
+        type: NUMBER
         description: ""
       MOT Performance by vendor:
-        type: STRING
+        type: NUMBER
         description: ""
       Safety stock details:
-        type: STRING
+        type: NUMBER
         description: ""
       No of Reservations created:
-        type: STRING
+        type: NUMBER
         description: ""
       No of planners making reservations:
-        type: STRING
+        type: NUMBER
         description: ""
       No of non coded materials procured:
-        type: STRING
+        type: NUMBER
         description: ""
       Amount of stock required:
-        type: STRING
+        type: NUMBER
         description: ""
       working capital inventory:
-        type: STRING
+        type: NUMBER
         description: ""
       inventory by different departments:
-        type: STRING
+        type: NUMBER
         description: ""
       Unplanned rushed orders:
-        type: STRING
+        type: NUMBER
         description: ""
       sourcing strategy used:
-        type: STRING
+        type: NUMBER
         description: ""
       materials procured on contracts:
-        type: STRING
+        type: NUMBER
         description: ""
       supplier delivery performance:
-        type: STRING
+        type: NUMBER
         description: ""
       PO Automation:
-        type: STRING
+        type: NUMBER
         description: ""
       production loss due to unavailability of material:
-        type: STRING
+        type: NUMBER
         description: ""
   stateStoreType: loadDataIceberg
   isProfilingEnabled: false
