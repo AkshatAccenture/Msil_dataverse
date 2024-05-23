@@ -1,4 +1,4 @@
-version: 0.0.18
+version: 0.0.20
 jobId: "114"
 jobName: Material On Time
 jobType: Consumption Ready Data Product
@@ -19,9 +19,9 @@ inputPorts:
       connection: Shell Demo S3 Connection
       dataSetUrn: urn:dv:dataset:e707c378-5d7c-4f1e-afad-fb17b11f44b2
     type: inputParquet
-  - alias: Material_Purchase_Detail
+  - alias: Material_Purchase_Details_1
     isDynamic: true
-    dataProductUrn: urn:dv:dataproduct:a614ce0d-9a66-4e7f-9a5f-b7b472d24de7
+    dataProductUrn: urn:dv:dataproduct:6dadcd43-b95d-41dc-b223-55a01153e8e8
     filter: ""
     projection: ""
     optional:
@@ -153,10 +153,10 @@ transformation:
     description: main query
     sequence: 3
     inputDataFrameList:
-      - inputDataFrame: Material_Purchase_Detail
-        tempViewName: material_purchase_detail
       - inputDataFrame: Requistion_detail_manual
         tempViewName: requisition_details_manual
+      - inputDataFrame: Material_Purchase_Details_1
+        tempViewName: ""
     query: select * from requisition_details_manual
     optional:
       persistDataFrame: false
