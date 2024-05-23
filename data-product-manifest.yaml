@@ -1,15 +1,15 @@
-version: 0.0.6
-jobId: "112"
-jobName: SADP_Requisition_Details
+version: 0.0.3
+jobId: "121"
+jobName: Goods Receipt
 jobType: Source Aligned Data Product
 domain: marketing
-alias: Load_data_to_table
+alias: load_in_iceberg
 discoveryPort:
-  name: SADP_Requisition_Details
+  name: Goods Receipt
 inputPorts:
-  - alias: Vendor_Master_1
+  - alias: Goods_Receipt_1
     isDynamic: true
-    path: s3://byte-etl-externaldemo/shell-sample-data/Vendor_Master_output.csv
+    path: s3://byte-etl-externaldemo/shell-sample-data/Goods_Receipt_output.csv
     optional:
       persistDataFrame: false
       advanceOptions:
@@ -17,41 +17,113 @@ inputPorts:
       enableDataReconciliation: false
       enforceSchema: false
       connection: Shell Demo S3 Connection
-      dataSetUrn: urn:dv:dataset:a218a716-597a-4234-8d2f-6980e5eec258
-    type: inputDelimited
-  - alias: Material_Master_1
-    isDynamic: true
-    path: s3://byte-etl-externaldemo/shell-sample-data/Material_Master_output.csv
-    optional:
-      persistDataFrame: false
-      advanceOptions:
-        delimiter: ","
-      enableDataReconciliation: false
-      enforceSchema: false
-      connection: Shell Demo S3 Connection
-      dataSetUrn: urn:dv:dataset:f76fa30b-a66e-4659-97d7-56a4ae7586f0
-    type: inputDelimited
-  - alias: Purchase_Requisition_1
-    isDynamic: true
-    path: s3://byte-etl-externaldemo/shell-sample-data/Purchase_Requisition_output.csv
-    optional:
-      persistDataFrame: false
-      advanceOptions:
-        delimiter: ","
-      enableDataReconciliation: false
-      enforceSchema: false
-      connection: Shell Demo S3 Connection
-      dataSetUrn: urn:dv:dataset:aff27224-7a15-4b18-9a78-5934e4443b95
+      dataSetUrn: urn:dv:dataset:be3e7cff-57af-4660-b321-32b62f4ac930
     type: inputDelimited
 productState:
   isDynamic: true
-  alias: Load_data_to_table
+  alias: load_in_iceberg
   retentionVersions: ""
-  logicalSchema: ""
+  logicalSchema:
+    properties:
+      Material Document Number:
+        type: STRING
+        description: Number assigned to a material document upon creation.
+        sourceColumn: Material Document Number
+        sourceTable: goods_receipt
+      Material Document Year:
+        type: STRING
+        description: Year in which the material document was created.
+        sourceColumn: Material Document Year
+        sourceTable: goods_receipt
+      Item in Material Document:
+        type: STRING
+        description: Identifier for an item within a material document.
+        sourceColumn: Item in Material Document
+        sourceTable: goods_receipt
+      Material Number:
+        type: STRING
+        description: Unique identifier for a material.
+        sourceColumn: Material Number
+        sourceTable: goods_receipt
+      Plant:
+        type: STRING
+        description: Identifier for the plant where the material is located.
+        sourceColumn: Plant
+        sourceTable: goods_receipt
+      Storage Location:
+        type: STRING
+        description: Identifier for the storage location of the material within a plant.
+        sourceColumn: Storage Location
+        sourceTable: goods_receipt
+      Batch Number:
+        type: STRING
+        description: Identifier for a batch of materials with similar characteristics.
+        sourceColumn: Batch Number
+        sourceTable: goods_receipt
+      Vendor Number:
+        type: STRING
+        description: Unique identifier for the vendor supplying the material.
+        sourceColumn: Vendor Number
+        sourceTable: goods_receipt
+      Purchasing Document Number:
+        type: STRING
+        description: Identifier for the purchasing document related to the material receipt.
+        sourceColumn: Purchasing Document Number
+        sourceTable: goods_receipt
+      Quantity:
+        type: STRING
+        description: Amount of material received in the goods receipt.
+        sourceColumn: Quantity
+        sourceTable: goods_receipt
+      Order Unit:
+        type: STRING
+        description: Unit of measure for the quantity of material ordered.
+        sourceColumn: Order Unit
+        sourceTable: goods_receipt
+      Goods Receipt Quantity:
+        type: STRING
+        description: Quantity of material actually received in the goods receipt.
+        sourceColumn: Goods Receipt Quantity
+        sourceTable: goods_receipt
+      Document Currency:
+        type: STRING
+        description: Currency used in the material document.
+        sourceColumn: Document Currency
+        sourceTable: goods_receipt
+      Valuation Type:
+        type: STRING
+        description: Method used to value the materials in the goods receipt.
+        sourceColumn: Valuation Type
+        sourceTable: goods_receipt
+      Posting Date:
+        type: STRING
+        description: Date on which the goods receipt transaction was posted.
+        sourceColumn: Posting Date
+        sourceTable: goods_receipt
+      Profit Centre:
+        type: STRING
+        description: Identifier for the profit center associated with the goods receipt.
+        sourceColumn: Profit Centre
+        sourceTable: goods_receipt
+      Name of the Person Who Created the Object:
+        type: STRING
+        description: Name of the individual who created the goods receipt record.
+        sourceColumn: Name of the Person Who Created the Object
+        sourceTable: goods_receipt
+      Date on Which the Record Was Created:
+        type: STRING
+        description: Date when the goods receipt record was created.
+        sourceColumn: Date on Which the Record Was Created
+        sourceTable: goods_receipt
+      Time of Goods Receipt:
+        type: STRING
+        description: Time at which the goods receipt transaction occurred.
+        sourceColumn: Time of Goods Receipt
+        sourceTable: goods_receipt
   stateStoreType: loadDataIceberg
   isProfilingEnabled: false
   updateStrategy: Overwrite
-  tableName: s3source.requisition_details
+  tableName: s3source.goods_receipt
   warehousePath: s3://bp-spark-sql-library-test-acc/
   catalogName: s3Source
   optional:
@@ -64,26 +136,20 @@ productState:
 transformation:
   - isDynamic: true
     alias: Spark_SQL_1
-    description: Main query
-    sequence: 4
+    description: "Query for fetching data "
+    sequence: 2
     inputDataFrameList:
-      - inputDataFrame: Vendor_Master_1
-        tempViewName: vendor_master
-      - inputDataFrame: Material_Master_1
-        tempViewName: material_master
-      - inputDataFrame: Purchase_Requisition_1
-        tempViewName: purchase_requisition
-    query: select pr.`Purchase Requisition Number`, pr.`Item Number of Purchase
-      Requisition`, pr.`Desired Vendor`, pr.`Fixed Vendor`, pr.`Number of
-      Purchasing Info Record`, vm.`Vendor Name`, vm.`Vendor ID`, vm.`Vendor
-      Type`, vm.`Client ID`, vm.`Client Name`, mm.`Material Number`,
-      mm.`Material Description`, mm.`Material Type` from purchase_requisition pr
-      left join vendor_master vm on vm.`Material Number Used by Vendor` =
-      pr.`Material Number` and vm.`Purchase Info record number` = pr.`Number of
-      Purchasing Info Record` and vm.`Vendor Name` = pr.`Fixed Vendor` left join
-      material_master mm on mm.`Material Number` = pr.`Material Number`
+      - inputDataFrame: Goods_Receipt_1
+        tempViewName: goods_receipt
+    query: select * from goods_receipt
     optional:
       persistDataFrame: false
     type: operationThroughSqlQuery
 controlPort:
-  dataQualityRules: {}
+  dataQualityRules:
+    NullValueCheck:
+      productState:
+        checks:
+          - column: "`Batch Number`"
+          - column: "`Purchasing Document Number`"
+        referenceAlias: load_in_iceberg
