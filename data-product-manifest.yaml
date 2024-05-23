@@ -1,9 +1,9 @@
-version: 0.0.2
+version: 0.0.3
 jobId: "124"
 jobName: Material Master
 jobType: Source Aligned Data Product
 domain: marketing
-alias: load_in_iceberg
+alias: load_in_material_master_iceberg
 discoveryPort:
   name: Material Master
 inputPorts:
@@ -21,7 +21,7 @@ inputPorts:
     type: inputParquet
 productState:
   isDynamic: true
-  alias: load_in_iceberg
+  alias: load_in_material_master_iceberg
   retentionVersions: ""
   logicalSchema:
     properties:
@@ -306,7 +306,7 @@ productState:
   refreshInterval: None
 transformation:
   - isDynamic: true
-    alias: Spark_SQL_1
+    alias: material_master_logic
     description: "Query for fetching data "
     sequence: 2
     inputDataFrameList:
@@ -322,9 +322,9 @@ controlPort:
       productState:
         checks:
           - column: "`Material Number`"
-        referenceAlias: load_in_iceberg
+        referenceAlias: load_in_material_master_iceberg
     UniquenessCheck:
       productState:
         checks:
           - column: "`Material Number`"
-        referenceAlias: load_in_iceberg
+        referenceAlias: load_in_material_master_iceberg
