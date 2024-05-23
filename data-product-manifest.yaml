@@ -3,7 +3,7 @@ jobId: "121"
 jobName: Goods Receipt
 jobType: Source Aligned Data Product
 domain: marketing
-alias: load_in_iceberg
+alias: load_in_goods_receipt
 discoveryPort:
   name: Goods Receipt
 inputPorts:
@@ -21,7 +21,7 @@ inputPorts:
     type: inputDelimited
 productState:
   isDynamic: true
-  alias: load_in_iceberg
+  alias: load_in_goods_receipt
   retentionVersions: ""
   logicalSchema:
     properties:
@@ -135,7 +135,7 @@ productState:
   refreshInterval: None
 transformation:
   - isDynamic: true
-    alias: Spark_SQL_1
+    alias: goods_receipt_code
     description: "Query for fetching data "
     sequence: 2
     inputDataFrameList:
