@@ -1,87 +1,63 @@
-version: 0.0.18
-jobId: "111"
-jobName: Material purchase detail
-jobType: Source Aligned Data Product
+version: 0.0.3
+jobId: "130"
+jobName: Material Purchase Details
+jobType: Aggregated Data Product
 domain: marketing
-alias: Load_data_to_table
+alias: Load_data_to_material_purchase_detail_table
 discoveryPort:
-  name: Material Purchase Detail
+  name: Material Purchase Details
 inputPorts:
-  - alias: Purchase_Order_1
+  - alias: Purchase_Order_2
     isDynamic: true
-    path: s3://byte-etl-externaldemo/shell-sample-data/Purchase_Order_output.csv
+    dataProductUrn: urn:dv:dataproduct:3665ef22-de7b-4bc0-bca8-ca6f3c738a8a
+    filter: ""
+    projection: ""
     optional:
       persistDataFrame: false
-      advanceOptions:
-        delimiter: ","
-      enableDataReconciliation: false
-      enforceSchema: false
-      connection: Shell Demo S3 Connection
-      dataSetUrn: urn:dv:dataset:1f646437-b498-47d8-88f0-3792a18329ce
-    type: inputDelimited
-  - alias: Goods_Receipt_1
+    type: dataproduct
+  - alias: Goods_Receipt_2
     isDynamic: true
-    path: s3://byte-etl-externaldemo/shell-sample-data/Goods_Receipt_output.csv
+    dataProductUrn: urn:dv:dataproduct:ab63917e-3aec-488e-9dd4-02d2cc15e7bc
+    filter: ""
+    projection: ""
     optional:
       persistDataFrame: false
-      advanceOptions:
-        delimiter: ","
-      enableDataReconciliation: false
-      enforceSchema: false
-      connection: Shell Demo S3 Connection
-      dataSetUrn: urn:dv:dataset:be3e7cff-57af-4660-b321-32b62f4ac930
-    type: inputDelimited
-  - alias: Vendor_Master_1
+    type: dataproduct
+  - alias: Vendor_Master_2
     isDynamic: true
-    path: s3://byte-etl-externaldemo/shell-sample-data/Vendor_Master_output.csv
+    dataProductUrn: urn:dv:dataproduct:c72454c2-e736-49ac-849d-09bd30a34420
+    filter: ""
+    projection: ""
     optional:
       persistDataFrame: false
-      advanceOptions:
-        delimiter: ","
-      enableDataReconciliation: false
-      enforceSchema: false
-      connection: Shell Demo S3 Connection
-      dataSetUrn: urn:dv:dataset:a218a716-597a-4234-8d2f-6980e5eec258
-    type: inputDelimited
-  - alias: Material_Master_1
+    type: dataproduct
+  - alias: Material_Master_2
     isDynamic: true
-    path: s3://byte-etl-externaldemo/shell-sample-data/Material_Master_output.csv
+    dataProductUrn: urn:dv:dataproduct:d7490263-51c1-4b17-9bce-567f14fa0e22
+    filter: ""
+    projection: ""
     optional:
       persistDataFrame: false
-      advanceOptions:
-        delimiter: ","
-      enableDataReconciliation: false
-      enforceSchema: false
-      connection: Shell Demo S3 Connection
-      dataSetUrn: urn:dv:dataset:f76fa30b-a66e-4659-97d7-56a4ae7586f0
-    type: inputDelimited
-  - alias: Company_Master_1
+    type: dataproduct
+  - alias: Company_Master_2
     isDynamic: true
-    path: s3://byte-etl-externaldemo/shell-sample-data/Company_Master_output.csv
+    dataProductUrn: urn:dv:dataproduct:91752e0a-3b3b-4adf-9fa2-f9f4138affda
+    filter: ""
+    projection: ""
     optional:
       persistDataFrame: false
-      advanceOptions:
-        delimiter: ","
-      enableDataReconciliation: false
-      enforceSchema: false
-      connection: Shell Demo S3 Connection
-      dataSetUrn: urn:dv:dataset:5f3ef882-9ef7-4130-9b53-a55f7d1b6fd8
-    type: inputDelimited
-  - alias: Plant_Master_1
+    type: dataproduct
+  - alias: Plant_Master_2
     isDynamic: true
-    path: s3://byte-etl-externaldemo/shell-sample-data/Plant_Master_output.csv
+    dataProductUrn: urn:dv:dataproduct:9baafe1b-8455-46d4-8209-9fdc182726be
+    filter: ""
+    projection: ""
     optional:
       persistDataFrame: false
-      advanceOptions:
-        delimiter: ","
-      enableDataReconciliation: false
-      enforceSchema: false
-      connection: Shell Demo S3 Connection
-      dataSetUrn: urn:dv:dataset:c0fdf1b9-ff15-4b83-88bf-742962f31be6
-    type: inputDelimited
+    type: dataproduct
 productState:
   isDynamic: true
-  alias: Load_data_to_table
+  alias: Load_data_to_material_purchase_detail_table
   retentionVersions: ""
   logicalSchema:
     properties:
@@ -210,21 +186,21 @@ productState:
   refreshInterval: None
 transformation:
   - isDynamic: true
-    alias: Spark_SQL_1
-    description: Main query
+    alias: Material_purchase_detail_logic
+    description: Main query for material purchase detail
     sequence: 7
     inputDataFrameList:
-      - inputDataFrame: Purchase_Order_1
+      - inputDataFrame: Purchase_Order_2
         tempViewName: purchase_order
-      - inputDataFrame: Goods_Receipt_1
+      - inputDataFrame: Goods_Receipt_2
         tempViewName: goods_receipt
-      - inputDataFrame: Vendor_Master_1
+      - inputDataFrame: Vendor_Master_2
         tempViewName: vendor_master
-      - inputDataFrame: Material_Master_1
+      - inputDataFrame: Material_Master_2
         tempViewName: material_master
-      - inputDataFrame: Company_Master_1
+      - inputDataFrame: Company_Master_2
         tempViewName: company_master
-      - inputDataFrame: Plant_Master_1
+      - inputDataFrame: Plant_Master_2
         tempViewName: plant_master
     query: select po.Plant, po.`Item Number of the Purchasing Document`,
       po.`Delivery Date`, po.`Order Quantity`, po.`Order Unit`, po.`Net Price`,
