@@ -1,27 +1,55 @@
-version: 0.0.21
-jobId: "114"
-jobName: Material On Time
-jobType: Consumption Ready Data Product
+version: 0.0.5
+jobId: "130"
+jobName: Material Purchase Details
+jobType: Aggregated Data Product
 domain: marketing
-alias: load_into_final_crdp
+alias: Load_data_to_material_purchase_details_table
 discoveryPort:
-  name: Material On Time
+  name: Material Purchase Details
 inputPorts:
-  - alias: Requistion_detail_manual
+  - alias: Purchase_Order_2
     isDynamic: true
-    path: s3://byte-etl-externaldemo/shell-sample-data/Requisition_detail_manual/
+    dataProductUrn: urn:dv:dataproduct:3665ef22-de7b-4bc0-bca8-ca6f3c738a8a
+    filter: ""
+    projection: ""
     optional:
       persistDataFrame: false
-      advanceOptions:
-        mergeSchema: true
-      enableDataReconciliation: false
-      enforceSchema: false
-      connection: Shell Demo S3 Connection
-      dataSetUrn: urn:dv:dataset:e707c378-5d7c-4f1e-afad-fb17b11f44b2
-    type: inputParquet
-  - alias: Material_Purchase_Details_1
+    type: dataproduct
+  - alias: Goods_Receipt_2
     isDynamic: true
-    dataProductUrn: urn:dv:dataproduct:6dadcd43-b95d-41dc-b223-55a01153e8e8
+    dataProductUrn: urn:dv:dataproduct:ab63917e-3aec-488e-9dd4-02d2cc15e7bc
+    filter: ""
+    projection: ""
+    optional:
+      persistDataFrame: false
+    type: dataproduct
+  - alias: Vendor_Master_2
+    isDynamic: true
+    dataProductUrn: urn:dv:dataproduct:c72454c2-e736-49ac-849d-09bd30a34420
+    filter: ""
+    projection: ""
+    optional:
+      persistDataFrame: false
+    type: dataproduct
+  - alias: Material_Master_2
+    isDynamic: true
+    dataProductUrn: urn:dv:dataproduct:d7490263-51c1-4b17-9bce-567f14fa0e22
+    filter: ""
+    projection: ""
+    optional:
+      persistDataFrame: false
+    type: dataproduct
+  - alias: Company_Master_2
+    isDynamic: true
+    dataProductUrn: urn:dv:dataproduct:91752e0a-3b3b-4adf-9fa2-f9f4138affda
+    filter: ""
+    projection: ""
+    optional:
+      persistDataFrame: false
+    type: dataproduct
+  - alias: Plant_Master_2
+    isDynamic: true
+    dataProductUrn: urn:dv:dataproduct:9baafe1b-8455-46d4-8209-9fdc182726be
     filter: ""
     projection: ""
     optional:
@@ -29,111 +57,124 @@ inputPorts:
     type: dataproduct
 productState:
   isDynamic: true
-  alias: load_into_final_crdp
+  alias: Load_data_to_material_purchase_details_table
   retentionVersions: ""
   logicalSchema:
     properties:
-      Percentage of material delivered on time:
-        type: NUMBER
-        description: Percentage of materials delivered as per delivery date
-        sourceColumn: Percentage of material delivered on time
-        sourceTable: material_purchase_detail
-      quartely trend of material delivered on time:
-        type: NUMBER
-        description: MoT metric quarterly
-        sourceColumn: quartely trend of material delivered on time
-        sourceTable: requisition_details
-      MOT by asset level:
-        type: NUMBER
-        description: MoT metric by asset
-        sourceColumn: MOT by asset level
-        sourceTable: requisition_details
-      Inventory Holding cost:
-        type: NUMBER
-        description: Holding cost of inventory
-        sourceColumn: Inventory Holding cost
-        sourceTable: requisition_details
-      MOT Performance by region:
-        type: NUMBER
-        description: MoT metric by region
-        sourceColumn: MOT Performance by region
-        sourceTable: requisition_details
-      MOT Performance by vendor:
-        type: NUMBER
-        description: MoT metric by vendor
-        sourceColumn: MOT Performance by vendor
-        sourceTable: requisition_details
-      Safety stock details:
-        type: NUMBER
-        description: Aggregate value of inventory tagged as safety stock
-        sourceColumn: Safety stock details
-        sourceTable: requisition_details
-      No of Reservations created:
-        type: NUMBER
-        description: No of material reservations
-        sourceColumn: No of Reservations created
-        sourceTable: material_purchase_detail
-      No of planners making reservations:
-        type: NUMBER
-        description: No of planners making reservations
-        sourceColumn: No of planners making reservations
-        sourceTable: requisition_detail
-      No of non coded materials procured:
-        type: NUMBER
-        description: No of non coded materials procured
-        sourceColumn: No of non coded materials procured
-        sourceTable: material_purchase_detail
-      Amount of stock required:
-        type: NUMBER
-        description: Amount of stock required
-        sourceColumn: Amount of stock required
-        sourceTable: material_purchase_detail
-      working capital inventory:
-        type: NUMBER
-        description: amount of working capital held up as inventory
-        sourceColumn: working capital inventory
-        sourceTable: material_purchase_detail
-      inventory by different departments:
-        type: NUMBER
-        description: inventory by different departments
-        sourceColumn: inventory by different departments
-        sourceTable: requisition_detail
-      Unplanned rushed orders:
-        type: NUMBER
-        description: Order is classified as rush order if the order delivery time given
-          to supplier is significantly less than regular delivery time
-        sourceColumn: Unplanned rushed orders
-        sourceTable: requisition_detail
-      sourcing strategy used:
-        type: NUMBER
-        description: single source, multisource, EFA etc
-        sourceColumn: sourcing strategy used
-        sourceTable: requisition_detail
-      materials procured on contracts:
-        type: NUMBER
-        description: "% of material procured on contracts"
-        sourceColumn: materials procured on contracts
-        sourceTable: material_purchase_detail
-      supplier delivery performance:
-        type: NUMBER
-        description: Product of cost, quality and on time delivery
-        sourceColumn: supplier delivery performance
-        sourceTable: material_purchase_detail
-      PO Automation:
-        type: NUMBER
-        description: No of Pos automatically generated
-        sourceColumn: PO Automation
-        sourceTable: material_purchase_detail
-      production loss due to unavailability of material:
-        type: NUMBER
-        description: calculated through no of hr plant is shutdown because of lack of
-          spares and associated throughput loss
-        sourceColumn: production loss due to unavailability of material
-        sourceTable: requisition_detail
+      Plant:
+        type: STRING
+        description: " "
+        sourceColumn: Plant
+        sourceTable: purchase_order
+      Item Number of the Purchasing Document:
+        type: STRING
+        description: " "
+        sourceColumn: Item Number of the Purchasing Document
+        sourceTable: purchase_order
+      Delivery Date:
+        type: STRING
+        description: " "
+        sourceColumn: Delivery Date
+        sourceTable: purchase_order
+      Order Quantity:
+        type: STRING
+        description: " "
+        sourceColumn: Order Quantity
+        sourceTable: purchase_order
+      Order Unit:
+        type: STRING
+        description: " "
+        sourceColumn: Order Unit
+        sourceTable: purchase_order
+      Net Price:
+        type: STRING
+        description: " "
+        sourceColumn: Net Price
+        sourceTable: purchase_order
+      Net Order Value in Document Currency:
+        type: STRING
+        description: " "
+        sourceColumn: Net Order Value in Document Currency
+        sourceTable: purchase_order
+      Material Group:
+        type: STRING
+        description: " "
+        sourceColumn: Material Group
+        sourceTable: purchase_order
+      Cost Centre:
+        type: STRING
+        description: " "
+        sourceColumn: Cost Centre
+        sourceTable: purchase_order
+      Purchasing Document Number:
+        type: STRING
+        description: " "
+        sourceColumn: Purchasing Document Number
+        sourceTable: purchase_order
+      Batch Number:
+        type: STRING
+        description: " "
+        sourceColumn: Batch Number
+        sourceTable: goods_receipt
+      Vendor Name:
+        type: STRING
+        description: " "
+        sourceColumn: Vendor Name
+        sourceTable: vendor_master
+      Vendor ID:
+        type: STRING
+        description: " "
+        sourceColumn: Vendor ID
+        sourceTable: vendor_master
+      Vendor Type:
+        type: STRING
+        description: " "
+        sourceColumn: Vendor Type
+        sourceTable: vendor_master
+      Client ID:
+        type: STRING
+        description: " "
+        sourceColumn: Client ID
+        sourceTable: vendor_master
+      Client Name:
+        type: STRING
+        description: " "
+        sourceColumn: Client Name
+        sourceTable: vendor_master
+      Material Number:
+        type: STRING
+        description: " "
+        sourceColumn: Material Number
+        sourceTable: material_master
+      Material Description:
+        type: STRING
+        description: " "
+        sourceColumn: Material Description
+        sourceTable: material_master
+      Material Type:
+        type: STRING
+        description: " "
+        sourceColumn: Material Type
+        sourceTable: material_master
+      Plant ID:
+        type: STRING
+        description: " "
+        sourceColumn: Plant ID
+        sourceTable: plant_master
+      Storage Location:
+        type: STRING
+        description: " "
+        sourceColumn: Storage Location
+        sourceTable: plant_master
+      Profit Centre:
+        type: STRING
+        description: " "
+        sourceColumn: Profit Centre
+        sourceTable: plant_master
   stateStoreType: loadDataIceberg
   isProfilingEnabled: false
   updateStrategy: Overwrite
-  tableName: s3source.material_on_time
+  tableName: s3source.material_purchase_details
   warehousePath: s3://bp-spark-sql-library-test-acc/
   catalogName: s3Source
   optional:
@@ -142,22 +183,40 @@ productState:
     enforceSchema: false
     enforceSchemaMethod: Warning
     catalogType: glue
-    loggingOptions:
-      printSchema: true
-      count: true
-      showData: true
   refreshInterval: None
 transformation:
   - isDynamic: true
-    alias: main_query
-    description: main query
-    sequence: 3
+    alias: Material_purchase_details_logic
+    description: Main query for material purchase detail
+    sequence: 7
     inputDataFrameList:
-      - inputDataFrame: Requistion_detail_manual
-        tempViewName: requisition_details_manual
-      - inputDataFrame: Material_Purchase_Details_1
-        tempViewName: material_purchase_details
-    query: select * from requisition_details_manual
+      - inputDataFrame: Purchase_Order_2
+        tempViewName: purchase_order
+      - inputDataFrame: Goods_Receipt_2
+        tempViewName: goods_receipt
+      - inputDataFrame: Vendor_Master_2
+        tempViewName: vendor_master
+      - inputDataFrame: Material_Master_2
+        tempViewName: material_master
+      - inputDataFrame: Company_Master_2
+        tempViewName: company_master
+      - inputDataFrame: Plant_Master_2
+        tempViewName: plant_master
+    query: select po.Plant, po.`Item Number of the Purchasing Document`,
+      po.`Delivery Date`, po.`Order Quantity`, po.`Order Unit`, po.`Net Price`,
+      po.`Net Order Value in Document Currency`, po.`Material Group`, po.`Cost
+      Centre`, po.`Purchasing Document Number`, gr.`Batch Number`, vm.`Vendor
+      Name`, vm.`Vendor ID`, vm.`Vendor Type`, vm.`Client ID`, vm.`Client Name`,
+      mm.`Material Number`, mm.`Material Description`, mm.`Material Type`,
+      pm.`Plant ID`, pm.`Storage Location`, pm.`Profit Centre`
+      from  purchase_order po left join  goods_receipt gr on po.plant =
+      gr.plant  and po.`Material Number` = gr.`Material Number` and po.`Vendor
+      Number`= gr.`Vendor Number` and po.`Purchasing Document Number` =
+      gr.`Purchasing Document Number` left join vendor_master vm on vm.`Vendor
+      Id` = po.`Vendor Number` left join material_master mm on mm.`Material
+      Number` = po.`Material Number` left join plant_master pm on pm.`plant Id`
+      = po.`plant` and pm.`Cost Centre` = po.`Cost Centre` and pm.`Material
+      Number` = po.`Material Number`
     optional:
       persistDataFrame: false
     type: operationThroughSqlQuery
