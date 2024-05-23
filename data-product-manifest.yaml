@@ -1,4 +1,4 @@
-version: 0.0.22
+version: 0.0.23
 jobId: "114"
 jobName: Material On Time
 jobType: Consumption Ready Data Product
@@ -149,8 +149,8 @@ productState:
   refreshInterval: None
 transformation:
   - isDynamic: true
-    alias: main_query
-    description: main query
+    alias: material_on_time_logic
+    description: material on time logic implementation
     sequence: 3
     inputDataFrameList:
       - inputDataFrame: Requistion_detail_manual
