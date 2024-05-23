@@ -1,51 +1,39 @@
-version: 0.0.11
+version: 0.0.13
 jobId: "112"
 jobName: Requisition Details
-jobType: Source Aligned Data Product
+jobType: Aggregated Data Product
 domain: marketing
-alias: Load_data_to_table
+alias: Load_data_to_requisition_details_table
 discoveryPort:
   name: Requisition Details
 inputPorts:
-  - alias: Vendor_Master_1
+  - alias: Purchase_Requisition_2
     isDynamic: true
-    path: s3://byte-etl-externaldemo/shell-sample-data/Vendor_Master_output.csv
+    dataProductUrn: urn:dv:dataproduct:8c328d00-ebd4-430c-b292-ad7ee62b2831
+    filter: ""
+    projection: ""
     optional:
       persistDataFrame: false
-      advanceOptions:
-        delimiter: ","
-      enableDataReconciliation: false
-      enforceSchema: false
-      connection: Shell Demo S3 Connection
-      dataSetUrn: urn:dv:dataset:a218a716-597a-4234-8d2f-6980e5eec258
-    type: inputDelimited
-  - alias: Material_Master_1
+    type: dataproduct
+  - alias: Vendor_Master_2
     isDynamic: true
-    path: s3://byte-etl-externaldemo/shell-sample-data/Material_Master_output.csv
+    dataProductUrn: urn:dv:dataproduct:c72454c2-e736-49ac-849d-09bd30a34420
+    filter: ""
+    projection: ""
     optional:
       persistDataFrame: false
-      advanceOptions:
-        delimiter: ","
-      enableDataReconciliation: false
-      enforceSchema: false
-      connection: Shell Demo S3 Connection
-      dataSetUrn: urn:dv:dataset:f76fa30b-a66e-4659-97d7-56a4ae7586f0
-    type: inputDelimited
-  - alias: Purchase_Requisition_1
+    type: dataproduct
+  - alias: Material_Master_2
     isDynamic: true
-    path: s3://byte-etl-externaldemo/shell-sample-data/Purchase_Requisition_output.csv
+    dataProductUrn: urn:dv:dataproduct:d7490263-51c1-4b17-9bce-567f14fa0e22
+    filter: ""
+    projection: ""
     optional:
       persistDataFrame: false
-      advanceOptions:
-        delimiter: ","
-      enableDataReconciliation: false
-      enforceSchema: false
-      connection: Shell Demo S3 Connection
-      dataSetUrn: urn:dv:dataset:aff27224-7a15-4b18-9a78-5934e4443b95
-    type: inputDelimited
+    type: dataproduct
 productState:
   isDynamic: true
-  alias: Load_data_to_table
+  alias: Load_data_to_requisition_details_table
   retentionVersions: ""
   logicalSchema:
     properties:
@@ -129,16 +117,16 @@ productState:
   refreshInterval: None
 transformation:
   - isDynamic: true
-    alias: Spark_SQL_1
+    alias: Requisition_details_logic
     description: Main query
     sequence: 4
     inputDataFrameList:
-      - inputDataFrame: Vendor_Master_1
-        tempViewName: vendor_master
-      - inputDataFrame: Material_Master_1
-        tempViewName: material_master
-      - inputDataFrame: Purchase_Requisition_1
+      - inputDataFrame: Purchase_Requisition_2
         tempViewName: purchase_requisition
+      - inputDataFrame: Vendor_Master_2
+        tempViewName: vendor_master
+      - inputDataFrame: Material_Master_2
+        tempViewName: material_master
     query: select pr.`Purchase Requisition Number`, pr.`Item Number of Purchase
       Requisition`, pr.`Desired Vendor`, pr.`Fixed Vendor`, pr.`Number of
       Purchasing Info Record`, vm.`Vendor Name`, vm.`Vendor ID`, vm.`Vendor
