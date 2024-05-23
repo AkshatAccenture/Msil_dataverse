@@ -1,4 +1,4 @@
-version: 0.0.20
+version: 0.0.22
 jobId: "114"
 jobName: Material On Time
 jobType: Consumption Ready Data Product
@@ -156,7 +156,7 @@ transformation:
       - inputDataFrame: Requistion_detail_manual
         tempViewName: requisition_details_manual
       - inputDataFrame: Material_Purchase_Details_1
-        tempViewName: ""
+        tempViewName: material_purchase_details
     query: select * from requisition_details_manual
     optional:
       persistDataFrame: false
