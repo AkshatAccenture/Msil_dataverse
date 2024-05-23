@@ -1,57 +1,300 @@
-version: 0.0.6
-jobId: "112"
-jobName: SADP_Requisition_Details
+version: 0.0.2
+jobId: "124"
+jobName: Material Master
 jobType: Source Aligned Data Product
 domain: marketing
-alias: Load_data_to_table
+alias: load_in_iceberg
 discoveryPort:
-  name: SADP_Requisition_Details
+  name: Material Master
 inputPorts:
-  - alias: Vendor_Master_1
-    isDynamic: true
-    path: s3://byte-etl-externaldemo/shell-sample-data/Vendor_Master_output.csv
-    optional:
-      persistDataFrame: false
-      advanceOptions:
-        delimiter: ","
-      enableDataReconciliation: false
-      enforceSchema: false
-      connection: Shell Demo S3 Connection
-      dataSetUrn: urn:dv:dataset:a218a716-597a-4234-8d2f-6980e5eec258
-    type: inputDelimited
   - alias: Material_Master_1
     isDynamic: true
-    path: s3://byte-etl-externaldemo/shell-sample-data/Material_Master_output.csv
+    path: s3://byte-etl-externaldemo/shell-sample-data/Material_Master/part-00000-021254fb-5dcb-4566-b3ca-2a3fcf747d12-c000.snappy.parquet
     optional:
       persistDataFrame: false
       advanceOptions:
-        delimiter: ","
+        mergeSchema: true
       enableDataReconciliation: false
       enforceSchema: false
       connection: Shell Demo S3 Connection
       dataSetUrn: urn:dv:dataset:f76fa30b-a66e-4659-97d7-56a4ae7586f0
-    type: inputDelimited
-  - alias: Purchase_Requisition_1
-    isDynamic: true
-    path: s3://byte-etl-externaldemo/shell-sample-data/Purchase_Requisition_output.csv
-    optional:
-      persistDataFrame: false
-      advanceOptions:
-        delimiter: ","
-      enableDataReconciliation: false
-      enforceSchema: false
-      connection: Shell Demo S3 Connection
-      dataSetUrn: urn:dv:dataset:aff27224-7a15-4b18-9a78-5934e4443b95
-    type: inputDelimited
+    type: inputParquet
 productState:
   isDynamic: true
-  alias: Load_data_to_table
+  alias: load_in_iceberg
   retentionVersions: ""
-  logicalSchema: ""
+  logicalSchema:
+    properties:
+      Vendor Name:
+        type: STRING
+        description: Name of the vendor.
+        sourceColumn: Vendor Name
+        sourceTable: material_master
+      Vendor Contact Details:
+        type: STRING
+        description: Contact details of the vendor.
+        sourceColumn: Vendor Contact Details
+        sourceTable: material_master
+      Vendor country Code:
+        type: STRING
+        description: Country code of the vendor's location.
+        sourceColumn: Vendor country Code
+        sourceTable: material_master
+      Vendor Contact Number:
+        type: STRING
+        description: Contact number of the vendor.
+        sourceColumn: Vendor Contact Number
+        sourceTable: material_master
+      Region Code:
+        type: STRING
+        description: Code representing the region where the vendor is located.
+        sourceColumn: Region Code
+        sourceTable: material_master
+      Vendor ID:
+        type: STRING
+        description: Unique identifier for the vendor.
+        sourceColumn: Vendor ID
+        sourceTable: material_master
+      Local Vendor Indication:
+        type: STRING
+        description: Indication of whether the vendor is a local vendor.
+        sourceColumn: Local Vendor Indication
+        sourceTable: material_master
+      Vendor Type:
+        type: STRING
+        description: Type of the vendor.
+        sourceColumn: Vendor Type
+        sourceTable: material_master
+      Payment Method:
+        type: STRING
+        description: Method of payment preferred by the vendor.
+        sourceColumn: Payment Method
+        sourceTable: material_master
+      Client ID:
+        type: STRING
+        description: ID of the client associated with the material.
+        sourceColumn: Client ID
+        sourceTable: material_master
+      Client Name:
+        type: STRING
+        description: Name of the client associated with the material.
+        sourceColumn: Client Name
+        sourceTable: material_master
+      Vendor Country Name:
+        type: STRING
+        description: Name of the country where the vendor is located.
+        sourceColumn: Vendor Country Name
+        sourceTable: material_master
+      Vendor Pin code:
+        type: STRING
+        description: Postal code of the vendor's location.
+        sourceColumn: Vendor Pin code
+        sourceTable: material_master
+      Your Reference:
+        type: STRING
+        description: Reference provided by the vendor.
+        sourceColumn: Your Reference
+        sourceTable: material_master
+      Customer Numbers:
+        type: STRING
+        description: Customer numbers associated with the material.
+        sourceColumn: Customer Numbers
+        sourceTable: material_master
+      Material Number Used by Vendor:
+        type: STRING
+        description: Material number used by the vendor.
+        sourceColumn: Material Number Used by Vendor
+        sourceTable: material_master
+      Status:
+        type: STRING
+        description: Status of the vendor.
+        sourceColumn: Status
+        sourceTable: material_master
+      Purchase Info record number:
+        type: STRING
+        description: Number of the purchase info record associated with the vendor.
+        sourceColumn: Purchase Info record number
+        sourceTable: material_master
+      Material Number:
+        type: STRING
+        description: Unique identifier for the material.
+        sourceColumn: Material Number
+        sourceTable: material_master
+      Material Description:
+        type: STRING
+        description: Description of the material.
+        sourceColumn: Material Description
+        sourceTable: material_master
+      Material Type:
+        type: STRING
+        description: Type of the material.
+        sourceColumn: Material Type
+        sourceTable: material_master
+      Material Group:
+        type: STRING
+        description: Grouping of materials with similar characteristics.
+        sourceColumn: Material Group
+        sourceTable: material_master
+      Material Deletion Indicator:
+        type: STRING
+        description: Indicator showing whether the material is marked for deletion.
+        sourceColumn: Material Deletion Indicator
+        sourceTable: material_master
+      Commodity Tag:
+        type: STRING
+        description: Tag indicating the commodity associated with the material.
+        sourceColumn: Commodity Tag
+        sourceTable: material_master
+      Account Assignment:
+        type: STRING
+        description: Assignment of the material to an account.
+        sourceColumn: Account Assignment
+        sourceTable: material_master
+      Responsible Department:
+        type: STRING
+        description: Department responsible for the material.
+        sourceColumn: Responsible Department
+        sourceTable: material_master
+      Manufacturer Part Number:
+        type: STRING
+        description: Part number assigned by the manufacturer.
+        sourceColumn: Manufacturer Part Number
+        sourceTable: material_master
+      Product Hierarchy:
+        type: STRING
+        description: Hierarchy of the product to which the material belongs.
+        sourceColumn: Product Hierarchy
+        sourceTable: material_master
+      Base Unit of Measure:
+        type: STRING
+        description: Basic unit of measure for the material.
+        sourceColumn: Base Unit of Measure
+        sourceTable: material_master
+      Person Who Created:
+        type: STRING
+        description: Name of the person who created the material.
+        sourceColumn: Person Who Created
+        sourceTable: material_master
+      Gross Weight:
+        type: STRING
+        description: Weight of the material.
+        sourceColumn: Gross Weight
+        sourceTable: material_master
+      Purchasing Group:
+        type: STRING
+        description: Group responsible for purchasing the material.
+        sourceColumn: Purchasing Group
+        sourceTable: material_master
+      Language Key:
+        type: STRING
+        description: Key representing the language used for the material.
+        sourceColumn: Language Key
+        sourceTable: material_master
+      Warranty Date:
+        type: STRING
+        description: Date when the warranty for the material expires.
+        sourceColumn: Warranty Date
+        sourceTable: material_master
+      Cross-Plant Configurable Material:
+        type: STRING
+        description: Indicator showing whether the material is cross-plant configurable.
+        sourceColumn: Cross-Plant Configurable Material
+        sourceTable: material_master
+      Date of Last Change:
+        type: STRING
+        description: Date when the material was last changed.
+        sourceColumn: Date of Last Change
+        sourceTable: material_master
+      Maintenance Status:
+        type: STRING
+        description: Status indicating the maintenance status of the material.
+        sourceColumn: Maintenance Status
+        sourceTable: material_master
+      Flag Material for Deletion at Client Level:
+        type: STRING
+        description: Indicator showing whether the material is flagged for deletion at
+          client level.
+        sourceColumn: Flag Material for Deletion at Client Level
+        sourceTable: material_master
+      Industry Sector:
+        type: STRING
+        description: Sector of the industry to which the material belongs.
+        sourceColumn: Industry Sector
+        sourceTable: material_master
+      Document Type:
+        type: STRING
+        description: Type of document associated with the material.
+        sourceColumn: Document Type
+        sourceTable: material_master
+      Industry Standard Description:
+        type: STRING
+        description: Standard description of the material as per industry standards.
+        sourceColumn: Industry Standard Description
+        sourceTable: material_master
+      Purchasing Value Key:
+        type: STRING
+        description: Key representing the purchasing value for the material.
+        sourceColumn: Purchasing Value Key
+        sourceTable: material_master
+      Storage Conditions:
+        type: STRING
+        description: Conditions required for storing the material.
+        sourceColumn: Storage Conditions
+        sourceTable: material_master
+      Hazardous Material Number:
+        type: STRING
+        description: Number indicating the hazardous nature of the material.
+        sourceColumn: Hazardous Material Number
+        sourceTable: material_master
+      Allowed Packaging Weight:
+        type: STRING
+        description: Maximum weight allowed for packaging the material.
+        sourceColumn: Allowed Packaging Weight
+        sourceTable: material_master
+      Packaging Material Type:
+        type: STRING
+        description: Type of material used for packaging.
+        sourceColumn: Packaging Material Type
+        sourceTable: material_master
+      "Indicator: Material can be co-product":
+        type: STRING
+        description: Indicator showing whether the material can be a co-product.
+        sourceColumn: "Indicator: Material can be co-product"
+        sourceTable: material_master
+      Catalog Profile:
+        type: STRING
+        description: Profile assigned to the material in the catalog.
+        sourceColumn: Catalog Profile
+        sourceTable: material_master
+      Minimum Remaining Shelf Life:
+        type: STRING
+        description: Minimum remaining shelf life of the material.
+        sourceColumn: Minimum Remaining Shelf Life
+        sourceTable: material_master
+      Total Shelf Life:
+        type: STRING
+        description: Total shelf life of the material.
+        sourceColumn: Total Shelf Life
+        sourceTable: material_master
+      Level of Explicitness for Serial Number:
+        type: STRING
+        description: Level of explicitness for assigning serial numbers to the material.
+        sourceColumn: Level of Explicitness for Serial Number
+        sourceTable: material_master
+      Spare Part Class Code:
+        type: STRING
+        description: Code indicating the class of the spare part.
+        sourceColumn: Spare Part Class Code
+        sourceTable: material_master
+      Planned Delivery Time in Days:
+        type: STRING
+        description: Planned delivery time for the material in days.
+        sourceColumn: Planned Delivery Time in Days
+        sourceTable: material_master
   stateStoreType: loadDataIceberg
   isProfilingEnabled: false
   updateStrategy: Overwrite
-  tableName: s3source.requisition_details
+  tableName: s3source.material_master
   warehousePath: s3://bp-spark-sql-library-test-acc/
   catalogName: s3Source
   optional:
@@ -64,26 +307,24 @@ productState:
 transformation:
   - isDynamic: true
     alias: Spark_SQL_1
-    description: Main query
-    sequence: 4
+    description: "Query for fetching data "
+    sequence: 2
     inputDataFrameList:
-      - inputDataFrame: Vendor_Master_1
-        tempViewName: vendor_master
       - inputDataFrame: Material_Master_1
         tempViewName: material_master
-      - inputDataFrame: Purchase_Requisition_1
-        tempViewName: purchase_requisition
-    query: select pr.`Purchase Requisition Number`, pr.`Item Number of Purchase
-      Requisition`, pr.`Desired Vendor`, pr.`Fixed Vendor`, pr.`Number of
-      Purchasing Info Record`, vm.`Vendor Name`, vm.`Vendor ID`, vm.`Vendor
-      Type`, vm.`Client ID`, vm.`Client Name`, mm.`Material Number`,
-      mm.`Material Description`, mm.`Material Type` from purchase_requisition pr
-      left join vendor_master vm on vm.`Material Number Used by Vendor` =
-      pr.`Material Number` and vm.`Purchase Info record number` = pr.`Number of
-      Purchasing Info Record` and vm.`Vendor Name` = pr.`Fixed Vendor` left join
-      material_master mm on mm.`Material Number` = pr.`Material Number`
+    query: select * from material_master
     optional:
       persistDataFrame: false
     type: operationThroughSqlQuery
 controlPort:
-  dataQualityRules: {}
+  dataQualityRules:
+    NullValueCheck:
+      productState:
+        checks:
+          - column: "`Material Number`"
+        referenceAlias: load_in_iceberg
+    UniquenessCheck:
+      productState:
+        checks:
+          - column: "`Material Number`"
+        referenceAlias: load_in_iceberg
