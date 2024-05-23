@@ -1,9 +1,9 @@
-version: 0.0.3
+version: 0.0.4
 jobId: "130"
 jobName: Material Purchase Details
 jobType: Aggregated Data Product
 domain: marketing
-alias: Load_data_to_material_purchase_detail_table
+alias: Load_data_to_material_purchase_details_table
 discoveryPort:
   name: Material Purchase Details
 inputPorts:
@@ -57,7 +57,7 @@ inputPorts:
     type: dataproduct
 productState:
   isDynamic: true
-  alias: Load_data_to_material_purchase_detail_table
+  alias: Load_data_to_material_purchase_details_table
   retentionVersions: ""
   logicalSchema:
     properties:
@@ -186,7 +186,7 @@ productState:
   refreshInterval: None
 transformation:
   - isDynamic: true
-    alias: Material_purchase_detail_logic
+    alias: Material_purchase_details_logic
     description: Main query for material purchase detail
     sequence: 7
     inputDataFrameList:
