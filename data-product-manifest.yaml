@@ -1,9 +1,9 @@
-version: 0.0.4
+version: 0.0.5
 jobId: "121"
 jobName: Goods Receipt
 jobType: Source Aligned Data Product
 domain: marketing
-alias: load_in_iceberg
+alias: load_in_good_receipt_iceberg
 discoveryPort:
   name: Goods Receipt
 inputPorts:
@@ -21,7 +21,7 @@ inputPorts:
     type: inputDelimited
 productState:
   isDynamic: true
-  alias: load_in_iceberg
+  alias: load_in_good_receipt_iceberg
   retentionVersions: ""
   logicalSchema:
     properties:
@@ -152,4 +152,4 @@ controlPort:
         checks:
           - column: "`Batch Number`"
           - column: "`Purchasing Document Number`"
-        referenceAlias: load_in_iceberg
+        referenceAlias: load_in_good_receipt_iceberg
