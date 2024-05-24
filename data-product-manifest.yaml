@@ -1,4 +1,4 @@
-version: 0.0.23
+version: 0.0.24
 jobId: "114"
 jobName: Material On Time
 jobType: Consumption Ready Data Product
@@ -7,21 +7,17 @@ alias: load_into_final_crdp
 discoveryPort:
   name: Material On Time
 inputPorts:
-  - alias: Requistion_detail_manual
-    isDynamic: true
-    path: s3://byte-etl-externaldemo/shell-sample-data/Requisition_detail_manual/
-    optional:
-      persistDataFrame: false
-      advanceOptions:
-        mergeSchema: true
-      enableDataReconciliation: false
-      enforceSchema: false
-      connection: Shell Demo S3 Connection
-      dataSetUrn: urn:dv:dataset:e707c378-5d7c-4f1e-afad-fb17b11f44b2
-    type: inputParquet
   - alias: Material_Purchase_Details_1
     isDynamic: true
     dataProductUrn: urn:dv:dataproduct:6dadcd43-b95d-41dc-b223-55a01153e8e8
+    filter: ""
+    projection: ""
+    optional:
+      persistDataFrame: false
+    type: dataproduct
+  - alias: Requisition_Details_1
+    isDynamic: true
+    dataProductUrn: urn:dv:dataproduct:51586beb-2c11-43eb-87f3-8a709ab5a554
     filter: ""
     projection: ""
     optional:
@@ -153,11 +149,11 @@ transformation:
     description: material on time logic implementation
     sequence: 3
     inputDataFrameList:
-      - inputDataFrame: Requistion_detail_manual
-        tempViewName: requisition_details_manual
       - inputDataFrame: Material_Purchase_Details_1
         tempViewName: material_purchase_details
-    query: select * from requisition_details_manual
+      - inputDataFrame: Requisition_Details_1
+        tempViewName: requisition_detail
+    query: select * from requisition_detail
     optional:
       persistDataFrame: false
     type: operationThroughSqlQuery
