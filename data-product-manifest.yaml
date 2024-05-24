@@ -1,4 +1,4 @@
-version: 0.0.13
+version: 0.0.14
 jobId: "112"
 jobName: Requisition Details
 jobType: Aggregated Data Product
@@ -31,6 +31,18 @@ inputPorts:
     optional:
       persistDataFrame: false
     type: dataproduct
+  - alias: Requistion_detail_manual_1
+    isDynamic: true
+    path: s3://byte-etl-externaldemo/shell-sample-data/Requisition_detail_manual/
+    optional:
+      persistDataFrame: false
+      advanceOptions:
+        mergeSchema: true
+      enableDataReconciliation: false
+      enforceSchema: false
+      connection: Shell Demo S3 Connection
+      dataSetUrn: urn:dv:dataset:e707c378-5d7c-4f1e-afad-fb17b11f44b2
+    type: inputParquet
 productState:
   isDynamic: true
   alias: Load_data_to_requisition_details_table
@@ -119,7 +131,7 @@ transformation:
   - isDynamic: true
     alias: Requisition_details_logic
     description: Main query
-    sequence: 4
+    sequence: 5
     inputDataFrameList:
       - inputDataFrame: Purchase_Requisition_2
         tempViewName: purchase_requisition
@@ -127,15 +139,9 @@ transformation:
         tempViewName: vendor_master
       - inputDataFrame: Material_Master_2
         tempViewName: material_master
-    query: select pr.`Purchase Requisition Number`, pr.`Item Number of Purchase
-      Requisition`, pr.`Desired Vendor`, pr.`Fixed Vendor`, pr.`Number of
-      Purchasing Info Record`, vm.`Vendor Name`, vm.`Vendor ID`, vm.`Vendor
-      Type`, vm.`Client ID`, vm.`Client Name`, mm.`Material Number`,
-      mm.`Material Description`, mm.`Material Type` from purchase_requisition pr
-      left join vendor_master vm on vm.`Material Number Used by Vendor` =
-      pr.`Material Number` and vm.`Purchase Info record number` = pr.`Number of
-      Purchasing Info Record` and vm.`Vendor Name` = pr.`Fixed Vendor` left join
-      material_master mm on mm.`Material Number` = pr.`Material Number`
+      - inputDataFrame: Requistion_detail_manual_1
+        tempViewName: requisition_detail
+    query: select * from requisition_detail
     optional:
       persistDataFrame: false
     type: operationThroughSqlQuery
