@@ -1,5 +1,5 @@
-version: 0.0.11
-jobId: "1308"
+version: 0.0.4
+jobId: "1313"
 jobName: CRDP_Customer_Sales_360
 jobType: Consumption Ready Data Product
 developerId: e8366529-9833-4c2e-ad85-a094679b85cc
@@ -8,6 +8,14 @@ alias: load_it_into_crdp_sales_360
 discoveryPort:
   name: CRDP_Customer_Sales_360
 inputPorts:
+  - alias: Sales_Invoice_1
+    isDynamic: true
+    dataProductUrn: urn:dv:dataproduct:713be1cd-04dc-49fc-8277-816482d621ea
+    filter: ""
+    projection: ""
+    optional:
+      persistDataFrame: false
+    type: dataproduct
   - alias: Vehicle_Master_1
     isDynamic: true
     dataProductUrn: urn:dv:dataproduct:2c719231-1e43-4d19-bb74-f1c4b708d4fc
@@ -27,14 +35,6 @@ inputPorts:
   - alias: Census_Master_Data_1
     isDynamic: true
     dataProductUrn: urn:dv:dataproduct:855271ea-f0f5-4725-9117-6a5647878b45
-    filter: ""
-    projection: ""
-    optional:
-      persistDataFrame: false
-    type: dataproduct
-  - alias: Sales_Invoice_2
-    isDynamic: true
-    dataProductUrn: urn:dv:dataproduct:713be1cd-04dc-49fc-8277-816482d621ea
     filter: ""
     projection: ""
     optional:
@@ -241,22 +241,22 @@ productState:
   refreshInterval: None
 transformation:
   - isDynamic: true
-    alias: Transformation_logic_for_crdp
-    description: Transformation logic
+    alias: Transformation_logic_implementation.
+    description: Logic implementation
     sequence: 5
     inputDataFrameList:
+      - inputDataFrame: Sales_Invoice_1
+        tempViewName: sales_invoice
       - inputDataFrame: Vehicle_Master_1
         tempViewName: vehicle_master
       - inputDataFrame: Dealer_Master_1
         tempViewName: dealer_master
       - inputDataFrame: Census_Master_Data_1
         tempViewName: census_master_data
-      - inputDataFrame: Sales_Invoice_2
-        tempViewName: sales_invoice
     query: select  SI.CUSTOMER_CODE ,SI.INVOICE_NUMBER ,SI.INVOICE_TYPE ,SI.VIN
       ,SI.DEALER_MAP_CODE ,SI.LOCATION_CODE ,SI.INV_DATE ,SI.ORDER_NUM
       ,SI.CANCEL_DATE ,SI.PARENT_GROUP ,SI.COMPANY_FA ,SI.TEHSIL_CODE
-      ,SI.VILLAGE_CODE ,SI.STATE_CODE ,SI.REGION_CODE ,sum(SI.INVOICE_AMOUNT) as
+      ,SI.VILLAGE_CODE ,SI.STATE_CODE ,SI.REGION_CD ,sum(SI.INVOICE_AMOUNT) as
       INVOICE_AMOUNT ,VM.MODEL_CODE ,VM.TRANSMISSION_TYPE ,VM.VARIANT_LONG_DESC
       ,sum(SI.loyalty_redeem_amount) as loyalty_redeem_amount
       ,sum(SI.extended_warranty_booked_amount) as
@@ -271,7 +271,7 @@ transformation:
       VM.VIN group by  SI.CUSTOMER_CODE ,SI.INVOICE_NUMBER ,SI.INVOICE_TYPE
       ,SI.VIN ,SI.DEALER_MAP_CODE ,SI.LOCATION_CODE ,SI.INV_DATE ,SI.ORDER_NUM
       ,SI.CANCEL_DATE ,SI.PARENT_GROUP ,SI.COMPANY_FA ,SI.TEHSIL_CODE
-      ,SI.VILLAGE_CODE ,SI.STATE_CODE ,SI.REGION_CODE ,VM.MODEL_CODE
+      ,SI.VILLAGE_CODE ,SI.STATE_CODE ,SI.REGION_CD ,VM.MODEL_CODE
       ,VM.TRANSMISSION_TYPE ,VM.VARIANT_LONG_DESC ,VM.MODEL_DESCRIPTION
       ,VM.FAMILY_MODEL_DESCRIPTION ,VM.FAMILY_MODEL_CODE ,SI.EXCHANGE_FLAG
       ,DM.Dealer_Name ,DM.Dealer_Type  union all   SELECT '' as CUSTOMER_CODE
