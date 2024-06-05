@@ -1,4 +1,4 @@
-version: 0.0.8
+version: 0.0.11
 jobId: "1308"
 jobName: CRDP_Customer_Sales_360
 jobType: Consumption Ready Data Product
@@ -32,7 +32,7 @@ inputPorts:
     optional:
       persistDataFrame: false
     type: dataproduct
-  - alias: Sales_Invoice_1
+  - alias: Sales_Invoice_2
     isDynamic: true
     dataProductUrn: urn:dv:dataproduct:713be1cd-04dc-49fc-8277-816482d621ea
     filter: ""
@@ -44,7 +44,188 @@ productState:
   isDynamic: true
   alias: load_it_into_crdp_sales_360
   retentionVersions: ""
-  logicalSchema: ""
+  logicalSchema:
+    properties:
+      CUSTOMER_CODE:
+        type: STRING
+        description: Customer Code
+        sourceColumn: CUSTOMER_CODE
+        sourceTable: Sales_Invoice
+      INVOICE_NUMBER:
+        type: STRING
+        description: Invoice Number
+        sourceColumn: INVOICE_NUMBER
+        sourceTable: Sales_Invoice
+      INVOICE_TYPE:
+        type: STRING
+        description: Invoice Type
+        sourceColumn: INVOICE_TYPE
+        sourceTable: Sales_Invoice
+      VIN:
+        type: STRING
+        description: Vehicle Identification Number
+        sourceColumn: VIN
+        sourceTable: Sales_Invoice
+      DEALER_MAP_CODE:
+        type: STRING
+        description: Dealer Mapping Code
+        sourceColumn: DEALER_MAP_CODE
+        sourceTable: Sales_Invoice
+      LOCATION_CODE:
+        type: STRING
+        description: Location Code
+        sourceColumn: LOCATION_CODE
+        sourceTable: Sales_Invoice
+      INV_DATE:
+        type: DATETIME
+        description: Invoice Date
+        sourceColumn: INV_DATE
+        sourceTable: Sales_Invoice
+      ORDER_NUM:
+        type: STRING
+        description: Order Number
+        sourceColumn: ORDER_NUM
+        sourceTable: Sales_Invoice
+      CANCEL_DATE:
+        type: DATETIME
+        description: Cancel Date
+        sourceColumn: CANCEL_DATE
+        sourceTable: Sales_Invoice
+      PARENT_GROUP:
+        type: STRING
+        description: Parent Group
+        sourceColumn: PARENT_GROUP
+        sourceTable: Sales_Invoice
+      COMPANY_FA:
+        type: STRING
+        description: Company FA
+        sourceColumn: COMPANY_FA
+        sourceTable: Sales_Invoice
+      TEHSIL_CODE:
+        type: STRING
+        description: Tehsil Code
+        sourceColumn: TEHSIL_CODE
+        sourceTable: Sales_Invoice
+      VILLAGE_CODE:
+        type: STRING
+        description: Village Code
+        sourceColumn: VILLAGE_CODE
+        sourceTable: Sales_Invoice
+      STATE_CODE:
+        type: STRING
+        description: State Code
+        sourceColumn: STATE_CODE
+        sourceTable: Sales_Invoice
+      REGION_CODE:
+        type: STRING
+        description: Region Code
+        sourceColumn: REGION_CODE
+        sourceTable: Sales_Invoice
+      INVOICE_AMOUNT:
+        type: STRING
+        description: Invoice Amount
+        sourceColumn: INVOICE_AMOUNT
+        sourceTable: Sales_Invoice
+      MODEL_CODE:
+        type: STRING
+        description: Model Code
+        sourceColumn: MODEL_CODE
+        sourceTable: vehicle_master
+      TRANSMISSION_TYPE:
+        type: STRING
+        description: Transmission Type
+        sourceColumn: TRANSMISSION_TYPE
+        sourceTable: vehicle_master
+      VARIANT_LONG_DESC:
+        type: STRING
+        description: Variant Long Description
+        sourceColumn: VARIANT_LONG_DESC
+        sourceTable: vehicle_master
+      loyalty_redeem_amount:
+        type: STRING
+        description: Loyalty Redeem Amount
+        sourceColumn: loyalty_redeem_amount
+        sourceTable: Sales_Invoice
+      extended_warranty_booked_amount:
+        type: STRING
+        description: Extended Warranty Booked Amount
+        sourceColumn: extended_warranty_booked_amount
+        sourceTable: Sales_Invoice
+      MODEL_DESCRIPTION:
+        type: STRING
+        description: Model Description
+        sourceColumn: MODEL_DESCRIPTION
+        sourceTable: vehicle_master
+      FAMILY_MODEL_DESCRIPTION:
+        type: STRING
+        description: Family Model Description
+        sourceColumn: FAMILY_MODEL_DESCRIPTION
+        sourceTable: vehicle_master
+      FAMILY_MODEL_CODE:
+        type: STRING
+        description: Family Model Code
+        sourceColumn: FAMILY_MODEL_CODE
+        sourceTable: vehicle_master
+      EXCHANGE_FLAG:
+        type: STRING
+        description: Exchange Flag
+        sourceColumn: EXCHANGE_FLAG
+        sourceTable: Sales_Invoice
+      district_name:
+        type: STRING
+        description: District Name
+        sourceColumn: district_name
+        sourceTable: census_master_data
+      criteria:
+        type: STRING
+        description: Criteria
+        sourceColumn: criteria
+        sourceTable: census_master_data
+      kpi:
+        type: STRING
+        description: KPI
+        sourceColumn: kpi
+        sourceTable: census_master_data
+      villages:
+        type: STRING
+        description: Villages
+        sourceColumn: villages
+        sourceTable: census_master_data
+      Dealer_Name:
+        type: STRING
+        description: Dealer Name
+        sourceColumn: Dealer_Name
+        sourceTable: dealer_master
+      Dealer_Type:
+        type: STRING
+        description: Dealer Type
+        sourceColumn: Dealer_Type
+        sourceTable: dealer_master
+      Buyer_Type:
+        type: STRING
+        description: ""
+        sourceColumn: ""
+        sourceTable: ""
+      Scheme_Name:
+        type: STRING
+        description: ""
+        sourceColumn: ""
+        sourceTable: ""
+      Scheme_Code:
+        type: STRING
+        description: ""
+        sourceColumn: ""
+        sourceTable: ""
+      DSE_Name:
+        type: STRING
+        description: ""
+        sourceColumn: ""
+        sourceTable: ""
+      DSE_Employee_Designation:
+        type: STRING
+        description: ""
+        sourceColumn: ""
+        sourceTable: ""
   stateStoreType: loadDataIceberg
   isProfilingEnabled: false
   updateStrategy: Overwrite
@@ -60,7 +241,7 @@ productState:
   refreshInterval: None
 transformation:
   - isDynamic: true
-    alias: Spark_SQL_1
+    alias: Transformation_logic_for_crdp
     description: Transformation logic
     sequence: 5
     inputDataFrameList:
@@ -70,7 +251,7 @@ transformation:
         tempViewName: dealer_master
       - inputDataFrame: Census_Master_Data_1
         tempViewName: census_master_data
-      - inputDataFrame: Sales_Invoice_1
+      - inputDataFrame: Sales_Invoice_2
         tempViewName: sales_invoice
     query: select  SI.CUSTOMER_CODE ,SI.INVOICE_NUMBER ,SI.INVOICE_TYPE ,SI.VIN
       ,SI.DEALER_MAP_CODE ,SI.LOCATION_CODE ,SI.INV_DATE ,SI.ORDER_NUM
@@ -84,12 +265,10 @@ transformation:
       as district_name ,'' as criteria ,'' as kpi ,'' as villages
       ,DM.Dealer_Name ,DM.Dealer_Type ,'' AS Buyer_Type ,'' AS Scheme_Name ,''
       AS Scheme_Code ,'' AS DSE_Name ,'' AS DSE_Employee_Designation from
-      msil_dataverse_marketing_and_sales_catalog.sales_invoice SI  left join
-      msil_dataverse_marketing_and_sales_catalog.dealer_master DM on
-      DM.LOCATION_CODE = SI.LOCATION_CODE and DM.DEALER_MAP_CODE =
-      SI.DEALER_MAP_CODE  and DM.parent_group = SI.parent_group  left join
-      msil_dataverse_quality_assurance_catalog.ccsm_vehicle_master VM on SI.VIN
-      = VM.VIN group by  SI.CUSTOMER_CODE ,SI.INVOICE_NUMBER ,SI.INVOICE_TYPE
+      sales_invoice SI  left join dealer_master DM on DM.LOCATION_CODE =
+      SI.LOCATION_CODE and DM.DEALER_MAP_CODE = SI.DEALER_MAP_CODE  and
+      DM.parent_group = SI.parent_group  left join vehicle_master VM on SI.VIN =
+      VM.VIN group by  SI.CUSTOMER_CODE ,SI.INVOICE_NUMBER ,SI.INVOICE_TYPE
       ,SI.VIN ,SI.DEALER_MAP_CODE ,SI.LOCATION_CODE ,SI.INV_DATE ,SI.ORDER_NUM
       ,SI.CANCEL_DATE ,SI.PARENT_GROUP ,SI.COMPANY_FA ,SI.TEHSIL_CODE
       ,SI.VILLAGE_CODE ,SI.STATE_CODE ,SI.REGION_CODE ,VM.MODEL_CODE
@@ -107,7 +286,7 @@ transformation:
       ,'' as EXCHANGE_FLAG ,CM.district_name ,CM.criteria ,CM.kpi ,CM.villages
       ,'' as Dealer_Name ,'' as Dealer_Type ,'' AS Buyer_Type ,'' AS Scheme_Name
       ,'' AS Scheme_Code ,'' AS DSE_Name ,'' AS DSE_Employee_Designation FROM
-      msil_dataverse_marketing_and_sales_catalog.census_master_data CM
+      census_master_data CM
     optional:
       persistDataFrame: false
     type: operationThroughSqlQuery
